@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('offer_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('offer_id')->constrained();
+            $table->foreignId('offer_id')->constrained()->onDelete('cascade');
             $table->string('image');
             $table->string('image_alt');
             $table->string('image_title');

@@ -30,10 +30,12 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->group(function () {
+    
+])->prefix('dashboard')->group(function () {
+
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::resource('/offers', OfferController::class);
+    Route::resource('/offers', OfferController::class, ['names' => 'offers']);
 });
