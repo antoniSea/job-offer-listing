@@ -6,6 +6,7 @@
     import Swal from 'sweetalert2'
     import ImageEditModal from '../../Components/ImageEditModal.vue'
     import { useAutoAnimate } from '@formkit/auto-animate/vue'
+    import { Link } from '@inertiajs/inertia-vue3'
 
     const form = useForm({
         name: '',
@@ -93,7 +94,7 @@
     <AppLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Nowa oferta
+                <Link :href="route('offers.index')">Oferty</Link> -> Nowa oferta
             </h2>
         </template>
 

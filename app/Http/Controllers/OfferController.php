@@ -11,8 +11,10 @@ class OfferController extends Controller
 {
     public function index()
     {
+        // search by search query if exists
+
         return Inertia::render('Offers/Index', [
-            'offers' => Offer::where('team_id', auth()->user()->currentTeam->id)->get(),
+            'offers' => request()->search ? Offer::where('team_id', auth()->user()->currentTeam->id)->where('name', 'like', '%' . request()->search . '%')->get() : Offer::where('team_id', auth()->user()->currentTeam->id)->get(),
         ]);
     }
 

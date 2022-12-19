@@ -52,8 +52,8 @@
 <template>
     <AppLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">
-                Oferta
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <Link :href="route('offers.index')">Oferty</Link> -> Wyświetl ofertę: {{ offer.name }}
             </h2>
         </template>
 

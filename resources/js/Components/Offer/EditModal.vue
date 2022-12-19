@@ -32,7 +32,7 @@
 
         setTimeout(() => {
             Inertia.visit(route('offers.show', {'id': props.offer.id}))
-        }, 300)
+        }, 150)
 
         
     }
@@ -245,10 +245,10 @@
 }
 
 .modal {
-    animation: fadeIn 0.5s; 
+    animation: fadeIn 0.2s; 
 }
 
 .fade-out {
-    animation: fadeOut 0.5s;
+    animation: fadeOut 0.2s;
 }
 </style>
