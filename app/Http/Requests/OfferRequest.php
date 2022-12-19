@@ -16,14 +16,14 @@ class OfferRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'contact_number' => 'required|string|max:255',
-            'contact_email' => 'required|string|max:255',
-            'contact_city' => 'required|string|max:255',
-            'contact_name' => 'required|string|max:255',
-            'contact_address' => 'required|string|max:255',
-            'contact_street' => 'required|string|max:255',
-            'contact_postal_code' => 'required|string|max:255',
-            'contact_country' => 'required|string|max:255',
+            'contact_number' => 'nullable|string|max:255',
+            'contact_email' => 'nullable|string|max:255',
+            'contact_city' => 'nullable|string|max:255',
+            'contact_name' => 'nullable|string|max:255',
+            'contact_address' => 'nullable|string|max:255',
+            'contact_street' => 'nullable|string|max:255',
+            'contact_postal_code' => 'nullable|string|max:255',
+            'contact_country' => 'nullable|string|max:255',
         ];
     }
 }

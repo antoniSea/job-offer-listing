@@ -33,6 +33,25 @@
     }
 
     const addImage = (e) => {
+        // check if file is image
+        if (!e.target.files[0].type.includes('image')) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Nieprawidłowy format',
+                text: 'Wybrany plik',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            return
+        }
+
         // base64 encode image
         const reader = new FileReader()
         reader.readAsDataURL(e.target.files[0])
@@ -48,7 +67,21 @@
         }
         e.target.value = ''
 
-        Swal.fire('Sukces!', 'Zdjęcie zostało dodane.', 'success')
+        
+        Swal.fire({
+            icon: 'success',
+            title: 'Dodano zdjęcie',
+            text: 'Zdjęcie zostało dodane do listy.',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
     }
 
     const removeImage = (index) => {
@@ -92,8 +125,7 @@
                                 </label>
                                 <input
                                     v-model="form.contact_country"
-                                    class="appearance-none block w-full bg-gray-200
-                                    text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="contact_country"
                                     type="text"
                                     placeholder="Kraj"
@@ -126,8 +158,7 @@
                                 </label>
                                 <input
                                     v-model="form.contact_postal_code"
-                                    class="appearance-none block w-full bg-gray-200
-                                    text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="contact_postal_code"
                                     type="text"
                                     placeholder="Kod pocztowy"
@@ -160,8 +191,7 @@
                                 </label>
                                 <input
                                     v-model="form.contact_name"
-                                    class="appearance-none block w-full bg-gray-200
-                                    text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="contact_name"
                                     type="text"
                                     placeholder="Imię i nazwisko"
@@ -177,8 +207,7 @@
                                 </label>
                                 <input
                                     v-model="form.contact_address"
-                                    class="appearance-none block w-full bg-gray-200
-                                    text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="contact_address"
                                     type="text"
                                     placeholder="Adres"
@@ -211,8 +240,7 @@
                                 </label>
                                 <input
                                     v-model="form.contact_email"
-                                    class="appearance-none block w-full bg-gray-200
-                                    text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="contact_email"
                                     type="text"
                                     placeholder="Email kontaktowy"
@@ -228,8 +256,7 @@
                                 </label>
                                 <input
                                     v-model="form.contact_city"
-                                    class="appearance-none block w-full bg-gray-200
-                                    text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="contact_city"
                                     type="text"
                                     placeholder="Miasto"
@@ -238,7 +265,7 @@
                             </div>
                         </div>
                         <!-- Add multiple images -->
-                        <div ref="parent" class="flex gap-4 overflow-x-scroll">
+                        <div ref="parent" class="flex gap-4 overflow-y-hidden overflow-x-scroll">
                             <div  v-for="url in form.images">
                                 <button @click="removeImage(url)">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -261,8 +288,7 @@
                                 </label>
                                 <input
                                     @change="addImage"
-                                    class="appearance-none block w-full bg-gray-200
-                                    text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="images"
                                     type="file"
                                     placeholder="Dodaj zdjęcia"

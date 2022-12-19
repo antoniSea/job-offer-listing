@@ -19,7 +19,7 @@ class OfferController extends Controller
     public function show($id)
     {
         return Inertia::render('Offers/Show', [
-            'offer' => Offer::where('id', $id)->with('images')->first(),
+            'offer' => Offer::where('id', $id)->where('team_id', auth()->user()->currentTeam->id)->with('images')->firstorfail(),
         ]);
     }
 
@@ -51,6 +51,21 @@ class OfferController extends Controller
                 'image_description' => $image['description']
             ]);
         }
+
+        return redirect()->route('offers.index');
+    }
+
+    public function edit($id)
+    {
+        return Inertia::render('Offers/Show', [
+            'offer' => Offer::where('id', $id)->where('team_id', auth()->user()->currentTeam->id)->with('images')->firstorfail(),
+            'edit' => true
+        ]);
+    }
+
+    public function update($id, OfferRequest $request) {
+        $offer = Offer::where('team_id', auth()->user()->currentTeam->id)->where('id', $id)->firstorfail();
+        $offer->update($request->validated());
 
         return redirect()->route('offers.index');
     }
