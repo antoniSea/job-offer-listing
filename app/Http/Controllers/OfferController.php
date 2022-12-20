@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Offer;
 use App\Http\Requests\OfferRequest;
+use App\Models\OfferImage;
 
 class OfferController extends Controller
 {
@@ -70,5 +71,26 @@ class OfferController extends Controller
         $offer->update($request->validated());
 
         return redirect()->route('offers.index');
+    }
+
+    public function deleteImage($id) {
+        $image = OfferImage::findorfail($id);
+        $image->delete();
+        return redirect()->back();
+    }
+
+    public function showImage($id) {
+        $image = OfferImage::where('id', $id)->with('offer')->firstorfail();
+
+        // check if this offer have next and previous image
+        
+        return Inertia::render('Offers/Show', [
+            'offer' => $image->offer,
+            'image' => [
+                'current' => $image,
+                'next' => OfferImage::where('offer_id', $image->offer->id)->where('id', $id + 1)->first(),
+                'previous' => OfferImage::where('offer_id', $image->offer->id)->where('id', $id - 1)->first()
+            ]
+        ]);
     }
 }

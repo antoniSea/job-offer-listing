@@ -7,6 +7,7 @@ import { InertiaProgress } from '@inertiajs/progress';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
+import VueApexCharts from "vue3-apexcharts";
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -16,6 +17,7 @@ createInertiaApp({
     setup({ el, app, props, plugin }) {
         return createApp({ render: () => h(app, props) })
             .use(plugin)
+            .use(VueApexCharts)
             .use(ZiggyVue, Ziggy, autoAnimatePlugin)
             .mount(el);
     },

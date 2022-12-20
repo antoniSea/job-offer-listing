@@ -41,4 +41,14 @@ class Team extends JetstreamTeam
         'updated' => TeamUpdated::class,
         'deleted' => TeamDeleted::class,
     ];
+
+    /**
+     * Get all of the offers for the Team
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function offers()
+    {
+        return $this->hasMany(Offer::class);
+    }
 }

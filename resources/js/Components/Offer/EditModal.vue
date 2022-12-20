@@ -2,7 +2,7 @@
     import { useAutoAnimate } from '@formkit/auto-animate/vue'
     import { Link } from '@inertiajs/inertia-vue3'
     import { Inertia } from '@inertiajs/inertia'
-    import { defineProps, onMounted } from 'vue'
+    import { onMounted } from 'vue'
     import PrimaryButton from '@/Components/PrimaryButton.vue'
     import Swal from 'sweetalert2'
 

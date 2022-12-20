@@ -2,9 +2,9 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 use App\Http\Controllers\OfferController;
-
+use App\Http\Controllers\DashboardController;
+use App\Charts\MonthlyUsersChart;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,9 +33,9 @@ Route::middleware([
     
 ])->prefix('dashboard')->group(function () {
 
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     Route::resource('/offers', OfferController::class, ['names' => 'offers']);
+    Route::get('/offers/{id}/show-image', [OfferController::class, 'showImage'])->name('offers.show-image');
+    Route::post('/offers/{id}/delete-image', [OfferController::class, 'deleteImage'])->name('offers.delete-image');
 });
