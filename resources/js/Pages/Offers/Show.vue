@@ -5,6 +5,7 @@
     import { Inertia } from '@inertiajs/inertia';
     import Swal from 'sweetalert2'
     import OfferEditModal from '@/Components/Offer/EditModal.vue'
+    import { onBeforeUnmount } from 'vue'
 
     const [parrent] = useAutoAnimate()
 
@@ -21,6 +22,10 @@
     } else {
         document.body.style.overflow = null
     }
+
+    onBeforeUnmount(() => {
+        document.body.style.overflow = null
+    })
 
     const deleteOffer = () => {
         Swal.fire({

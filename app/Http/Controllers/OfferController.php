@@ -7,13 +7,12 @@ use Inertia\Inertia;
 use App\Models\Offer;
 use App\Http\Requests\OfferRequest;
 use App\Models\OfferImage;
+use App\Models\Action as OfferAction;
 
 class OfferController extends Controller
 {
     public function index()
     {
-        // search by search query if exists
-
         return Inertia::render('Offers/Index', [
             'offers' => request()->search ? Offer::where('team_id', auth()->user()->currentTeam->id)->where('name', 'like', '%' . request()->search . '%')->get() : Offer::where('team_id', auth()->user()->currentTeam->id)->get(),
         ]);
@@ -28,6 +27,16 @@ class OfferController extends Controller
 
     public function destroy($id) {
         Offer::findorfail($id)->delete();
+        
+        $OfferAction = new OfferAction();
+        $OfferAction->name = 'Usunięcie oferty';
+        $OfferAction->description = 'Usunięcie oferty o id: ' . $id;
+        $OfferAction->type = 'delete';
+        $OfferAction->user_id = auth()->user()->id;
+        $OfferAction->team_id = auth()->user()->currentTeam->id;
+        $OfferAction->ip_address = request()->ip();
+        $OfferAction->save();
+        
         return redirect()->route('offers.index');
     }
 
@@ -64,11 +73,32 @@ class OfferController extends Controller
             'offer' => Offer::where('id', $id)->where('team_id', auth()->user()->currentTeam->id)->with('images')->firstorfail(),
             'edit' => true
         ]);
+
+        // push notification to test channel
+        // $pusher = new Pusher(
+        //     env('PUSHER_APP_KEY'),
+        //     env('PUSHER_APP_SECRET'),
+        //     env('PUSHER_APP_ID'),
+        //     [
+        //         'cluster' => env('PUSHER_APP_CLUSTER'),
+        //         'useTLS' => true
+        //     ]
+        
     }
 
     public function update($id, OfferRequest $request) {
         $offer = Offer::where('team_id', auth()->user()->currentTeam->id)->where('id', $id)->firstorfail();
         $offer->update($request->validated());
+
+        $offerAction = new OfferAction();
+        $offerAction->name = 'Edycja oferty';
+        $offerAction->description = 'Edycja oferty o id: ' . $id;
+        $offerAction->type = 'edit';
+        $offerAction->user_id = auth()->user()->id;
+        $offerAction->team_id = auth()->user()->currentTeam->id;
+        $offerAction->ip_address = request()->ip();
+        $offerAction->href = route('offers.show', $id);
+        $offerAction->save();
 
         return redirect()->route('offers.index');
     }
@@ -76,14 +106,22 @@ class OfferController extends Controller
     public function deleteImage($id) {
         $image = OfferImage::findorfail($id);
         $image->delete();
+
+        OfferAction::create([
+            'name' => 'Usunięcie zdjęcia',
+            'description' => 'Usunięcie zdjęcia o id: ' . $id,
+            'type' => 'delete',
+            'user_id' => auth()->user()->id,
+            'team_id' => auth()->user()->currentTeam->id,
+            'ip_address' => request()->ip()
+        ]);
+
         return redirect()->back();
     }
 
     public function showImage($id) {
         $image = OfferImage::where('id', $id)->with('offer')->firstorfail();
 
-        // check if this offer have next and previous image
-        
         return Inertia::render('Offers/Show', [
             'offer' => $image->offer,
             'image' => [

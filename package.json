@@ -25,6 +25,8 @@
     "dependencies": {
         "@formkit/auto-animate": "^1.0.0-beta.5",
         "apexcharts": "^3.36.3",
+        "laravel-echo": "^1.14.2",
+        "pusher-js": "^7.6.0",
         "sweetalert2": "^11.6.15",
         "vue3-apexcharts": "^1.4.1"
     }

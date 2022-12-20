@@ -118,22 +118,6 @@
                                 <Inputerror :message="form.errors.name" />
                             </div>
                         </div>
-                        <!-- Contact country -->
-                        <div class="flex flex-wrap -mx-3 mb-6">
-                            <div class="w-full px-3">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="contact_country">
-                                    Kraj
-                                </label>
-                                <input
-                                    v-model="form.contact_country"
-                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="contact_country"
-                                    type="text"
-                                    placeholder="Kraj"
-                                >
-                                <Inputerror :message="form.errors.contact_country" />
-                            </div>
-                        </div>
 
                         <!-- Description -->
                         <div class="flex flex-wrap -mx-3 mb-6">
@@ -151,6 +135,24 @@
                                 <Inputerror :message="form.errors.description" />
                             </div>
                         </div>
+
+                        <!-- Contact country -->
+                        <div class="flex flex-wrap -mx-3 mb-6">
+                            <div class="w-full px-3">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="contact_country">
+                                    Kraj
+                                </label>
+                                <input
+                                    v-model="form.contact_country"
+                                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    id="contact_country"
+                                    type="text"
+                                    placeholder="Kraj"
+                                >
+                                <Inputerror :message="form.errors.contact_country" />
+                            </div>
+                        </div>
+
                         <!-- Contact postal code -->
                         <div class="flex flex-wrap -mx-3 mb-6">
                             <div class="w-full px-3">

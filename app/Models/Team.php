@@ -51,4 +51,14 @@ class Team extends JetstreamTeam
     {
         return $this->hasMany(Offer::class);
     }
+
+    /**
+     * Get all of the actions for the Team
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function actions()
+    {
+        return $this->hasMany(Action::class);
+    }
 }

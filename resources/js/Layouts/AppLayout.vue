@@ -13,6 +13,12 @@ defineProps({
     title: String,
 });
 
+// Listen to notifications by laravel echo
+Echo.channel('notifications')
+.listen('test', (e) => {
+    console.log(e);
+});
+
 const showingNavigationDropdown = ref(false);
 
 const switchToTeam = (team) => {
@@ -50,7 +56,7 @@ const logout = () => {
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    Panel
                                 </NavLink>
 
                                 <NavLink :href="route('offers.index')" :active="route().current('offers.*')">

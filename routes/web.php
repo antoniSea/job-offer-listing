@@ -34,6 +34,7 @@ Route::middleware([
 ])->prefix('dashboard')->group(function () {
 
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+    Route::post('/dashboard/prefrences/items-per-page-history', [DashboardController::class, 'prefrencesItemsPerPageHistory'])->name('dashboard.prefrences.items-per-page-history');
 
     Route::resource('/offers', OfferController::class, ['names' => 'offers']);
     Route::get('/offers/{id}/show-image', [OfferController::class, 'showImage'])->name('offers.show-image');
