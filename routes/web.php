@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\DashboardController;
 use App\Charts\MonthlyUsersChart;
+use Inertia\Inertia;
+use App\Models\Offer;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +23,7 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        'offers' => Offer::with('images')->paginate(10),
     ]);
 });
 
