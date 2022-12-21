@@ -1,9 +1,17 @@
 <script setup>
     import Navbar from '@/Components/Navbar.vue'
     import Foter from '@/Components/Foter.vue'
+    import PrimaryButton from '@/Components/PrimaryButton.vue'
+    import { ref } from 'vue'
+    import { useAutoAnimate } from '@formkit/auto-animate/vue'
+    
+    const [parrent] = useAutoAnimate()
+
     const props = defineProps({
         offer: Object
     })
+
+    let description = ref(props.offer.description.slice(0, 200))
 </script>
 
 <template>
@@ -16,15 +24,18 @@
             </div>
         </div>
 
-        <div class="lg:flex flex-row pr-32 mt-4">
+        <div class="lg:flex flex-row lg:pr-32 mt-4">
             <div class="flex-1">
                 <h1 class="text-6xl font-bold mt-4">{{ offer.name }}</h1>
-                <p class="mt-4">
-                    {{ offer.description }}
+                <p class="mt-4" ref="parrent">
+                    <div>
+                        {{ description }}
+                    </div>
+                    <PrimaryButton class="mt-4" v-if="description !== offer.description" @click="description = offer.description">Zobacz więcej</PrimaryButton>
                 </p>
             </div>
 
-            <div class="ml-auto mt-4 p-10 pl-20">
+            <div class="ml-auto mt-4 p-10 lg:pl-20">
                 <div class="ml-auto w-fit">
                     <div class="flex flex-row-reverse">
                         <div class="flex-1">
