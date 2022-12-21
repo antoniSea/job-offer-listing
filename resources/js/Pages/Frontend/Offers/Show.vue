@@ -67,6 +67,8 @@
             </div>
         </div>
     </div>
-
+    <div class="text-center">
+        Wyświetlono {{ offer.views.length }} razy
+    </div>
     <Foter />
 </template>
