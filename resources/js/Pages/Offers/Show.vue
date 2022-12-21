@@ -85,12 +85,8 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
                     <!-- Offer details -->
-                    <h1 class="text-4xl font-semibold mb-4 sm:ml-16">
-                        {{ offer.name }}
-                    </h1>
-
                     <div class="lg:flex p-4 lg:justify-between lg:px-16">                        
-                        <div>
+                        <div class="p-8">
                             <div>
                                 opis: {{ offer.description }}
                             </div>
@@ -108,7 +104,7 @@
                             </div>
                         </div>
                         
-                        <div>
+                        <div class="p-8">
                             <div>
                                 ulica: {{ offer.contact_street ?? 'nie podano' }}
                             </div>

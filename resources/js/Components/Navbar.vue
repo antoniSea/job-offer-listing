@@ -1,7 +1,13 @@
 <script setup>
     import ApplicationMark from './ApplicationMark.vue';
     import { Link } from '@inertiajs/inertia-vue3';
+    import { Inertia } from '@inertiajs/inertia';
 
+    let search = ""
+
+    const searchOffers = () => {
+        Inertia.get(route('offers.front.index'), { search })
+    } 
 </script>
 
 <template>
@@ -32,9 +38,12 @@
                         </svg>
                         <span class="sr-only">Search icon</span>
                     </div>
-                    <input type="text" id="search-navbar"
-                        class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Search...">
+                    <form @submit.prevent="searchOffers">
+                        <input type="text" id="search-navbar"
+                            class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                            v-model="search"
+                            placeholder="Search...">
+                    </form>
                 </div>
                 <button data-collapse-toggle="navbar-search" type="button"
                     class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
@@ -78,6 +87,11 @@
                         <Link :href="route('register')"
                             class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
                         Rejestruj</Link>
+                    </li>
+                    <li>
+                        <Link :href="route('offers.front.index')"
+                            class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0">
+                        Oferty</Link>
                     </li>
                 </ul>
             </div>
