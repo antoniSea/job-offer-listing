@@ -44,3 +44,4 @@ Route::middleware([
 });
 
 Route::get('/offers/{id}', [OfferFrontController::class, 'show'])->name('offers.front.show');
+Route::get('/offers', [OfferFrontController::class, 'index'])->name('offers.front.index');
