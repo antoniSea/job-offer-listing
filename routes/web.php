@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Charts\MonthlyUsersChart;
 use Inertia\Inertia;
 use App\Models\Offer;
+use App\Http\Controllers\OfferFrontController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +42,5 @@ Route::middleware([
     Route::get('/offers/{id}/show-image', [OfferController::class, 'showImage'])->name('offers.show-image');
     Route::post('/offers/{id}/delete-image', [OfferController::class, 'deleteImage'])->name('offers.delete-image');
 });
+
+Route::get('/offers/{id}', [OfferFrontController::class, 'show'])->name('offers.front.show');
