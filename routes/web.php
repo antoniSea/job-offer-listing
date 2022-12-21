@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\DashboardController;
 use App\Charts\MonthlyUsersChart;
+use Inertia\Inertia;
+use App\Models\Offer;
+use App\Http\Controllers\OfferFrontController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +24,7 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        'offers' => Offer::with('images')->paginate(10),
     ]);
 });
 
@@ -40,3 +42,5 @@ Route::middleware([
     Route::get('/offers/{id}/show-image', [OfferController::class, 'showImage'])->name('offers.show-image');
     Route::post('/offers/{id}/delete-image', [OfferController::class, 'deleteImage'])->name('offers.delete-image');
 });
+
+Route::get('/offers/{id}', [OfferFrontController::class, 'show'])->name('offers.front.show');

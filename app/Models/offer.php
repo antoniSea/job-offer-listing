@@ -25,5 +25,10 @@ class offer extends Model
         return $this->hasMany(offerImage::class);
     }
 
+    public function Team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
     use HasFactory;
 }
