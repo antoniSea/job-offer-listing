@@ -63,4 +63,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Action::class);
     }
+
+    public function offers()
+    {
+        return $this->hasManyThrough(Offer::class, Team::class);
+    }
 }
