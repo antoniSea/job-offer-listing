@@ -37,7 +37,7 @@
         </section>
 
         <!-- Display offers in grid -->
-        <div id="offers" class="p-4 text-center gap-4 flex flex-wrap" style="flex: 0 0 33.333333%; padding: 30px 150px;">
+        <div id="offers" class="text-center mr-auto space-y-reverse flex flex-wrap gap-4 lg:w-[84%] ml-auto mt-4" style="flex: 0 0 33.333333%;">
             <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md" v-for="offer in offers.data">
                 <a v-if="offer.images.length > 0" href="#">
                     <img class="rounded-t-lg" :src="offer.images[0].image" alt="" />

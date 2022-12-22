@@ -30,5 +30,10 @@ class offer extends Model
         return $this->belongsTo(Team::class);
     }
 
+    public function Views()
+    {
+        return $this->hasMany(OfferView::class);
+    }
+
     use HasFactory;
 }
