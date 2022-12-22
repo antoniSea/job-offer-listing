@@ -13,7 +13,7 @@
 
 <template>
 
-    <Head title="Welcome" />
+    <Head title="Lista ofert" />
 
     <div>
         <Navbar />

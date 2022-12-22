@@ -1,6 +1,5 @@
 <script setup>
     import { Head, Link } from '@inertiajs/inertia-vue3';
-    import Banner from '../Components/Banner.vue';
     import Navbar from '../Components/Navbar.vue';
 
     defineProps({
@@ -12,7 +11,7 @@
 
 <template>
 
-    <Head title="Welcome" />
+    <Head title="Witamy" />
 
     <div>
         <Navbar />

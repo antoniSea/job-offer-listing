@@ -4,6 +4,7 @@
     import PrimaryButton from '@/Components/PrimaryButton.vue'
     import { ref } from 'vue'
     import { useAutoAnimate } from '@formkit/auto-animate/vue'
+    import { Head } from '@inertiajs/inertia-vue3'
     
     const [parrent] = useAutoAnimate()
 
@@ -15,6 +16,8 @@
 </script>
 
 <template>
+    <Head title="Oferta" />
+    
     <Navbar />
     <div class="p-12">
         <!-- Image slider -->
