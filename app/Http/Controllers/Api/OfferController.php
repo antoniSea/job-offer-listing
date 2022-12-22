@@ -74,4 +74,9 @@ class OfferController extends Controller
 
         return response()->json(['message' => 'Offer deleted']);
     }
+
+    public function publicIndex()
+    {
+        return response()->json(Offer::paginate(10));
+    }
 }
