@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\OfferRequest;
+use App\Models\Offer;
 
 class OfferController extends Controller
 {
@@ -15,7 +16,7 @@ class OfferController extends Controller
      */
     public function index()
     {
-        return response()->json(auth()->user()->offers()->get());
+        return response()->json(auth()->user()->offers()->paginate(10));
     }
 
     /**
@@ -26,7 +27,11 @@ class OfferController extends Controller
      */
     public function store(OfferRequest $request)
     {
-        $offer = auth()->user()->offers()->create($request->validated());
+        $offer = new Offer();
+        $offer->fill($request->validated());
+        $offer->team_id = auth()->user()->currentTeam->id;
+        $offer->save();
+        
         return response()->json($offer);
     }
 
@@ -38,7 +43,7 @@ class OfferController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(auth()->user()->offers()->findorfail($id));
     }
 
     /**
@@ -48,9 +53,13 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(OfferRequest $request, $id)
     {
-        //
+        $offer = auth()->user()->offers()->findorfail($id);
+        $offer->fill($request->validated());
+        $offer->save();
+
+        return response()->json($offer);
     }
 
     /**
@@ -61,6 +70,8 @@ class OfferController extends Controller
      */
     public function destroy($id)
     {
-        //
+        auth()->user()->offers()->findorfail($id)->delete();
+
+        return response()->json(['message' => 'Offer deleted']);
     }
 }

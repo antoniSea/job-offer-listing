@@ -16,9 +16,9 @@ class OfferRequest extends FormRequest
     public function rules()
     {
         return [
+            'team_id' => 'required|integer|exists:teams,id',
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'team_id' => 'required|integer|exists:teams,id',
             'contact_number' => 'nullable|string|max:255',
             'contact_email' => 'nullable|string|max:255',
             'contact_city' => 'nullable|string|max:255',
