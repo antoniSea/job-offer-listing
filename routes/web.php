@@ -45,3 +45,5 @@ Route::middleware([
 
 Route::get('/offers/{id}', [OfferFrontController::class, 'show'])->name('offers.front.show');
 Route::get('/offers', [OfferFrontController::class, 'index'])->name('offers.front.index');
+Route::post('/offers/{id}/place-comment', [OfferFrontController::class, 'placeComment'])->name('offers.front.place-comment');
+Route::post('/offers/{id}/mark-as-helpful', [OfferFrontController::class, 'markAsHelpful'])->name('offers.front.mark-as-helpful');

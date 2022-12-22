@@ -2,15 +2,61 @@
     import Navbar from '@/Components/Navbar.vue'
     import Foter from '@/Components/Foter.vue'
     import PrimaryButton from '@/Components/PrimaryButton.vue'
-    import { ref } from 'vue'
+    import { ref, onMounted } from 'vue'
     import { useAutoAnimate } from '@formkit/auto-animate/vue'
     import { Head } from '@inertiajs/inertia-vue3'
+    import { Inertia } from '@inertiajs/inertia'
+    import StarRating from '@/Components/StarRating.vue'
+    import Swal from 'sweetalert2'
     
     const [parrent] = useAutoAnimate()
 
     const props = defineProps({
         offer: Object
     })
+
+    let comment = ""
+    let rating = 0
+
+    onMounted(() => {
+        init()
+    })
+
+    const init = () => {
+        props.offer.comments.forEach(element => {
+            element.shownBody = element.body.slice(0, 150)
+        });
+    }
+
+    const createComment = () => {
+        Inertia.post(route('offers.front.place-comment', props.offer.id), {
+            comment: comment,
+            rating: rating
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+            onSuccess: () => {       
+                init()
+                
+                Swal.fire({
+                    title: 'Komentarz został dodany!',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                })
+            }
+        })
+    }
+
+    const markAsHelpful = (id) => {
+        Inertia.post(route('offers.front.mark-as-helpful', {id: id}), {}, {
+            preserveState: true,
+            preserveScroll: true
+        })
+    }
+
+    const setRating = (value) => {
+        rating = value
+    }
 
     let description = ref(props.offer.description.slice(0, 200))
 </script>
@@ -70,6 +116,41 @@
             </div>
         </div>
     </div>
+    
+
+    <article v-for="comment in offer.comments" class="px-12 my-12">
+        <div class="flex items-center mb-4 space-x-4">
+            <img :src="comment.user.profile_photo_url" v-if="comment.user" class="w-10 h-10 rounded-full" alt="">
+            <img src="https://ui-avatars.com/api/?name={{ comment.user.name ?? 'gość' }}&background=0D8ABC&color=fff" v-else class="w-10 h-10 rounded-full" alt="">
+            <div class="space-y-1 font-medium">
+                <p> <span v-if="comment.user">{{ comment.user.name }}</span> <span v-else>Gość</span> <time v-if="comment.user" class="block text-sm text-gray-500 dark:text-gray-400">Dołączono {{ comment.user.created_at.split("T")[0] }}</time> <time v-else class="block text-sm text-gray-500 dark:text-gray-400">Dołączono {{ comment.created_at.split("T")[0] }} </time></p>
+            </div>
+        </div>
+        <div class="flex items-center mb-1">
+            <svg v-for="n in comment.rating" aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>First star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+       </div>
+        <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400"><p>Stworzono {{ comment.created_at.split("T")[0] }} o godzinie {{ comment.created_at.split("T")[1].split('.')[0] }}</p></footer>
+        <p class="mb-2 font-light text-gray-500 dark:text-gray-400">{{ comment.shownBody }}</p>
+        <button @click="comment.shownBody = comment.body" v-if="comment.shownBody !== comment.body" class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Zobacz więcej</button>
+        <aside>
+            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ comment.found_helpful }} uznaje ten komentarz za pomocny</p>
+            <div class="flex items-center mt-3 space-x-3 divide-x divide-gray-200 dark:divide-gray-600">
+                <button @click="markAsHelpful(comment.id)" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-2 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Pomocne</button>
+                <a href="#" class="pl-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Zgłoś</a>
+            </div>
+        </aside>
+    </article>
+
+
+    <form @submit.prevent="createComment" class="px-12 my-12">
+        <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Twój komentarz</label>
+        <StarRating @set-rating="setRating" />
+        <textarea v-model="comment" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Napisz treść komentarza..."></textarea>
+
+        <PrimaryButton class="mt-4" @click="sendMessage">Dodaj komentarz</PrimaryButton>
+    </form>
+
+
     <div class="text-center">
         Wyświetlono {{ offer.views.length }} razy
     </div>

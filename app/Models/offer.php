@@ -73,5 +73,10 @@ class offer extends Model
         return $this->hasMany(OfferView::class);
     }
 
+    public function Comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     use HasFactory;
 }

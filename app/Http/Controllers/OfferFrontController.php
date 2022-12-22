@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Offer;
 use App\Models\OfferView;
 use Inertia\Inertia;
+use App\Models\Comment;
 
 class OfferFrontController extends Controller
 {
@@ -17,8 +18,13 @@ class OfferFrontController extends Controller
         $offerView->user_agent = request()->userAgent();
         $offerView->save();
 
+        $offers = Offer::with('images')->with('comments')->with('team')->with('views')->findOrFail($id);
+        $offers->comments->each(function ($comment) {
+            $comment->user;
+        });
+
         return Inertia::render('Frontend/Offers/Show', [
-            'offer' => Offer::with('images')->with('team')->with('views')->findOrFail($id),
+            'offer' => $offers,
         ]);
     }
 
@@ -33,5 +39,26 @@ class OfferFrontController extends Controller
         return Inertia::render('Frontend/Offers/Index', [
             'offers' => Offer::with('images')->paginate(8),
         ]);
+    }
+
+    public function placeComment(Request $request, $id)
+    {
+        $comment = new Comment();
+        $comment->body = $request->comment;
+        $comment->user_id = auth()->user()->id ?? null;
+        $comment->rating = $request->rating;
+        $comment->offer_id = Offer::findOrFail($id)->id;
+        $comment->save();
+
+        return redirect()->back();
+    }
+
+    public function markAsHelpful($id)
+    {
+        $comment = Comment::findOrFail($id);
+        $comment->found_helpful = $comment->helpful + 1;
+        $comment->save();
+
+        return redirect()->back();
     }
 }
