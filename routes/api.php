@@ -20,8 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('offers', [OfferController::class, 'publicIndex']);
-
 Route::resource('offers', OfferController::class)->only([
     'index', 'store', 'show', 'update', 'destroy'
 ])->middleware('auth:sanctum', 'create-posts');
+

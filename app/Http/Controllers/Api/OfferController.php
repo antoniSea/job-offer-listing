@@ -16,7 +16,7 @@ class OfferController extends Controller
      */
     public function index()
     {
-        return response()->json(auth()->user()->offers()->paginate(10));
+        return response()->json(auth()->user()->offers()->with('images')->paginate(10));
     }
 
     /**
@@ -43,7 +43,7 @@ class OfferController extends Controller
      */
     public function show($id)
     {
-        return response()->json(auth()->user()->offers()->findorfail($id));
+        return response()->json(auth()->user()->offers()->with('images')->findorfail($id));
     }
 
     /**
