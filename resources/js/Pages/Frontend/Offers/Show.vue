@@ -4,29 +4,24 @@
     import PrimaryButton from '@/Components/PrimaryButton.vue'
     import { ref, onMounted } from 'vue'
     import { useAutoAnimate } from '@formkit/auto-animate/vue'
-    import { Head } from '@inertiajs/inertia-vue3'
+    import { Head, Link } from '@inertiajs/inertia-vue3'
     import { Inertia } from '@inertiajs/inertia'
     import StarRating from '@/Components/StarRating.vue'
     import Swal from 'sweetalert2'
+    import DangerButton from '@/Components/DangerButton.vue'
+    import ReportCommentButton from '@/Components/ReportCommentButton.vue'
     
     const [parrent] = useAutoAnimate()
 
     const props = defineProps({
-        offer: Object
+        offer: Object,
+        reportComment: Object
     })
 
     let comment = ""
     let rating = 0
 
-    onMounted(() => {
-        init()
-    })
-
-    const init = () => {
-        props.offer.comments.forEach(element => {
-            element.shownBody = element.body.slice(0, 150)
-        });
-    }
+    let description = ref(props.offer.description.slice(0, 200))
 
     const createComment = () => {
         Inertia.post(route('offers.front.place-comment', props.offer.id), {
@@ -35,13 +30,20 @@
         }, {
             preserveState: true,
             preserveScroll: true,
-            onSuccess: () => {       
-                init()
-                
+            onSuccess: () => {
                 Swal.fire({
-                    title: 'Komentarz został dodany!',
                     icon: 'success',
-                    confirmButtonText: 'Ok'
+                    title: 'Komentarz został dodany!',
+                    text: 'Akcja została wykonana pomyślnie!',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
                 })
             }
         })
@@ -50,7 +52,7 @@
     const markAsHelpful = (id) => {
         Inertia.post(route('offers.front.mark-as-helpful', {id: id}), {}, {
             preserveState: true,
-            preserveScroll: true
+            preserveScroll: true,
         })
     }
 
@@ -58,7 +60,28 @@
         rating = value
     }
 
-    let description = ref(props.offer.description.slice(0, 200))
+    const deleteComment = (id) => {
+        Inertia.delete(route('offers.front.delete-comment', {id: id}), {
+            preserveState: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Komentarz został usunięty!',
+                    text: 'Akcja została wykonana pomyślnie!',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+            }
+        })
+    }
 </script>
 
 <template>
@@ -136,7 +159,9 @@
             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ comment.found_helpful }} uznaje ten komentarz za pomocny</p>
             <div class="flex items-center mt-3 space-x-3 divide-x divide-gray-200 dark:divide-gray-600">
                 <button @click="markAsHelpful(comment.id)" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-xs px-2 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Pomocne</button>
-                <a href="#" class="pl-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Zgłoś</a>
+                <DangerButton v-if="comment.user && $page.props.user && comment.user.id === $page.props.user.id" @click="deleteComment(comment.id)" class="text-xs px-2 py-1.5">Usuń</DangerButton>
+                
+                <Link class="pl-4 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500" @click.prevent="$inertia.visit(route('offers.front.report-comment', {'offer_id': offer.id, 'comment_id': comment.id}), { preserveScroll: true })">Zgłoś komentarz</Link>
             </div>
         </aside>
     </article>
@@ -155,4 +180,6 @@
         Wyświetlono {{ offer.views.length }} razy
     </div>
     <Foter />
+
+    <ReportCommentButton :offer="offer" :comment="reportComment" v-if="reportComment" />
 </template>

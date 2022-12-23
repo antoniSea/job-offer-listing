@@ -47,3 +47,6 @@ Route::get('/offers/{id}', [OfferFrontController::class, 'show'])->name('offers.
 Route::get('/offers', [OfferFrontController::class, 'index'])->name('offers.front.index');
 Route::post('/offers/{id}/place-comment', [OfferFrontController::class, 'placeComment'])->name('offers.front.place-comment');
 Route::post('/offers/{id}/mark-as-helpful', [OfferFrontController::class, 'markAsHelpful'])->name('offers.front.mark-as-helpful');
+Route::delete('/offers/{id}/delete-comment', [OfferFrontController::class, 'deleteComment'])->name('offers.front.delete-comment');
+Route::get('/offers/{offer_id}/report-comment/{comment_id}', [OfferFrontController::class, 'reportComment'])->name('offers.front.report-comment');
+Route::post('/offers/{offer_id}/report-comment/{comment_id}', [OfferFrontController::class, 'submitReportComment'])->name('offers.front.submtit-report-comment');
