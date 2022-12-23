@@ -8,6 +8,7 @@ use App\Charts\MonthlyUsersChart;
 use Inertia\Inertia;
 use App\Models\Offer;
 use App\Http\Controllers\OfferFrontController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,11 @@ Route::middleware([
     Route::resource('/offers', OfferController::class, ['names' => 'offers']);
     Route::get('/offers/{id}/show-image', [OfferController::class, 'showImage'])->name('offers.show-image');
     Route::post('/offers/{id}/delete-image', [OfferController::class, 'deleteImage'])->name('offers.delete-image');
+
+    Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
+    Route::post('/comments/change-view-mode', [CommentController::class, 'changeViewMode'])->name('comments.change-view-mode');
+    Route::get('/comments/search-by-offer/{offer_id}', [CommentController::class, 'showByOffer'])->name('comments.show-by-offer');
+
 });
 
 Route::get('/offers/{id}', [OfferFrontController::class, 'show'])->name('offers.front.show');

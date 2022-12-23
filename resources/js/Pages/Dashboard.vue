@@ -27,9 +27,17 @@
                 // swal toast
                 Swal.fire({
                     icon: 'success',
-                    title: 'Zapisano',
+                    title: 'Zapisano!',
+                    text: 'Akcja została wykonana pomyślnie!',
+                    toast: true,
+                    position: 'top-end',
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
                 })
             }
         })

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->integer('items_per_page_history')->default(5);
+            $table->enum('comments_view_mode', ['offers', 'all'])->default('offers');
             $table->timestamps();
         });
     }

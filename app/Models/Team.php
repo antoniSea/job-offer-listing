@@ -61,4 +61,9 @@ class Team extends JetstreamTeam
     {
         return $this->hasMany(Action::class);
     }
+
+    public function commentsThroughOffers()
+    {
+        return $this->hasManyThrough(Comment::class, Offer::class);
+    }
 }
