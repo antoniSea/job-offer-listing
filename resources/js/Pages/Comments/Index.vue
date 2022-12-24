@@ -16,7 +16,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 <span v-if="searched_offer_id"><Link :href="route('comments.index')">Komentarze</Link> -> Wyszukaj przez ofertę: {{ searched_offer_id }}</span> <span v-else>Komentarze</span>
             </h2>
-        </template>
+        </template> 
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -62,7 +62,7 @@
                                         {{ comment.updated_at.split("T")[0] }}
                                     </td>
                                     <td class="py-4 px-6 flex gap-4">
-                                        <Link class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 active:bg-blue-600 disabled:opacity-25 transition" :href="route('offers.show', {'id': comment})">Zobacz</Link>
+                                        <Link class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 active:bg-blue-600 disabled:opacity-25 transition" :href="route('comments.show', {'id': comment.id})">Zobacz</Link>
                                     </td>
                                 </tr>
                             </tbody>

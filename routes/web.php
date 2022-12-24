@@ -46,7 +46,7 @@ Route::middleware([
     Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
     Route::post('/comments/change-view-mode', [CommentController::class, 'changeViewMode'])->name('comments.change-view-mode');
     Route::get('/comments/search-by-offer/{offer_id}', [CommentController::class, 'showByOffer'])->name('comments.show-by-offer');
-
+    Route::get('/comments/{id}', [CommentController::class, 'show'])->name('comments.show');
 });
 
 Route::get('/offers/{id}', [OfferFrontController::class, 'show'])->name('offers.front.show');

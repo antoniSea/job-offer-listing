@@ -34,7 +34,16 @@ class CommentController extends Controller
         $user->comments_view_mode = $user->comments_view_mode == 'offers' ? 'all' : 'offers';
         $user->save();
 
-        return redirect()->back();
+        session()->flash('flash.banner', 'Zmieniono ustawienia wyświwtlania!');
+        session()->flash('flash.bannerStyle', 'success');
+ 
+        return redirect()->route('comments.index');
+    }
+
+    public function show($id) {
+        return Inertia::render('Comments/Show', [
+            'comment' => auth()->user()->currentTeam->commentsThroughOffers()->with('user')->findOrFail($id),
+        ]);
     }
 
 }
