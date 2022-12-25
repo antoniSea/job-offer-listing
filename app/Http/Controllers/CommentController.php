@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Inertia\Inertia;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CommentController extends Controller
 {
@@ -46,4 +47,9 @@ class CommentController extends Controller
         ]);
     }
 
+    public function generatePdf() {
+        $comments = auth()->user()->currentTeam->commentsThroughOffers()->with('user')->get();
+        $pdf = Pdf::loadView('pdf.comments', compact('comments'));
+        return $pdf->stream('comments.pdf');
+    }
 }

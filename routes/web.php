@@ -45,6 +45,7 @@ Route::middleware([
 
     Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
     Route::post('/comments/change-view-mode', [CommentController::class, 'changeViewMode'])->name('comments.change-view-mode');
+    Route::get('/comments/generate-pdf', [CommentController::class, 'generatePdf'])->name('comments.pdf');
     Route::get('/comments/search-by-offer/{offer_id}', [CommentController::class, 'showByOffer'])->name('comments.show-by-offer');
     Route::get('/comments/{id}', [CommentController::class, 'show'])->name('comments.show');
 });
