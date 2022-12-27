@@ -1,6 +1,6 @@
 <script setup>
     import AppLayout from '@/Layouts/AppLayout.vue'
-    import Inputerror from '@/Components/Inputerror.vue'
+    import Inputerror from '@/Components/InputError.vue'
     import { useForm } from '@inertiajs/inertia-vue3'
     import PrimaryButton from '@/Components/PrimaryButton.vue'
     import Swal from 'sweetalert2'

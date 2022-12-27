@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // example offer
-        $offer = \App\Models\offer::create([
+        $offer = \App\Models\Offer::create([
             'name' => 'Example Offer',
             'description' => 'Example Description',
             'contact_number' => '123456789',
