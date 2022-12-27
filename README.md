@@ -10,3 +10,6 @@ This project was created using Laravel && Vue && Inertia && Jetstream using serv
 
 ## Project setup
 To setup project on local server run ```composer install && php artisan migrate --seed && php artisan serve && npm install && npm run dev``` and visit https://localhost:8000.
+
+## SSR
+To start server-site rendering server you need to run ```node bootstrap/ssr/ssr.mjs```
