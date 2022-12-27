@@ -103,6 +103,7 @@
                     <div>
                         {{ description }}
                     </div>
+
                     <PrimaryButton class="mt-4" v-if="description !== offer.description" @click="description = offer.description">Zobacz więcej</PrimaryButton>
                 </p>
             </div>
@@ -136,7 +137,7 @@
                         <span class="ml-2">{{ offer.contact_name ?? 'brak' }}</span>
                     </div>
                     <div class="mt-4">
-                        <Link :href="route('offers.show', {'id': offer.id})" class="text-white px-2 py-1 bg-slate-500 rounded w-fit" v-if="offer.team_id === $page.props.user.current_team_id">
+                        <Link :href="route('offers.show', {'id': offer.id})" class="text-white px-2 py-1 bg-slate-500 rounded w-fit" v-if="$page.props.user && offer.team_id === $page.props.user.current_team_id">
                             Zobacz w panelu
                         </Link>
                     </div>
@@ -145,7 +146,6 @@
         </div>
     </div>
     
-
     <article v-for="comment in offer.comments" class="px-12 my-12">
         <div class="flex items-center mb-4 space-x-4">
             <img :src="comment.user.profile_photo_url" v-if="comment.user" class="w-10 h-10 rounded-full" alt="">
@@ -171,7 +171,6 @@
         </aside>
     </article>
 
-
     <form @submit.prevent="createComment" class="px-12 my-12">
         <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Twój komentarz</label>
         <StarRating @set-rating="setRating" />
@@ -180,10 +179,10 @@
         <PrimaryButton class="mt-4" @click="sendMessage">Dodaj komentarz</PrimaryButton>
     </form>
 
-
     <div class="text-center">
         Wyświetlono {{ offer.views.length }} razy
     </div>
+
     <Foter />
 
     <ReportCommentButton :offer="offer" :comment="reportComment" v-if="reportComment" />
